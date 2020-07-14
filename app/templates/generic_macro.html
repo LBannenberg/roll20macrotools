@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block extra_header %}
+<!--extra_header-->
+    <style>
+        .is-hidden {
+            display: none;
+        }
+        .value-field {
+            width: 1000px;
+        }
+    </style>
+    {# Import JQuery #}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+        <script type=text/javascript src="{{ url_for('static', filename='kv.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+    <h1>Generic Macro Builder</h1>
+
+    <form id="pair-form" action="" method="POST" role="form">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.name.label }}<br>
+            {{ form.name(size=32) }}<br>
+            {% for error in form.name.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        
+        <div id="subforms-container">
+                {% for subform in form.pairs %}
+                    <div id="pair-{{ loop.index0 }}-form" class="subform" data-index="{{ loop.index0 }}">
+                        {{ subform.key.label }} {{ loop.index0 }}
+                        {{ subform.key }}
+
+                        {{ subform.value.label }}
+                        {{ subform.value(class_="value-field")}}
+
+                        <a class="remove" href="#" tabindex="-1">Remove</a>
+                    </div>
+                {% endfor %}
+            </div>
+
+        <a id="add" href="#">Add Pair</a>
+        <p>{{ form.build() }} {{ form.restart() }}</p>
+    </form>
+
+    {% for error in form.pairs.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+
+
+    {# Form template #}
+    <div id="pair-_-form" class="is-hidden" data-index="_">
+        <label for="pairs-_-key">Key</label> <span id="pairs-_-number">X</span>
+        <input id="pairs-_-key" name="pairs-_-key" type="text" value="">
+
+        <label for="pairs-_-value">value</label>
+        <input id="pairs-_-value" name="pairs-_-value" type="text" class="value-field" value="">
+
+        <a class="remove" href="#" tabindex="-1">Remove</a>
+    </div>
+
+    {% if macro %}
+    <h2>The Macro</h2>
+    <div><span style="background-color:lightgray"><code>{{ macro }}</code></span></div>
+    {% endif %}
+
+{% endblock %}

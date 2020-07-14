@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block extra_header %}
+<!--extra_header-->
+{% endblock %}
+
+{% block content %}
+<h1>Saves Macro</h1>
+<form action="" method="post" novalidate>
+    {{ form.hidden_tag() }}
+    <table style="table-layout: fixed; width: 100%;">
+        <tr>
+            <td style="width:33%">{{ form.fortitude.label }}</td>
+            <td style="width:33%">{{ form.reflex.label }}</td>
+            <td style="width:33%">{{ form.will.label }}</td>
+        </tr>
+        <tr>
+            <td>{{ form.fortitude(size=3) }}</td>
+            <td>{{ form.reflex(size=3) }}</td>
+            <td>{{ form.will(size=3) }}</td>
+        </tr>
+        <tr>
+            <td>
+                {% for error in form.fortitude.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </td>
+            <td>
+                {% for error in form.reflex.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </td>
+            <td>
+                {% for error in form.will.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </td>
+        </tr>
+    </table>
+    <p>
+        {{ form.notes.label }}<br>
+        {{ form.notes(style='width:80%;') }}
+    </p>
+    <p>{{ form.build() }} {{ form.restart() }}</p>
+</form>
+
+{% if macro %}
+<h2>The Macro</h2>
+<div><span style="background-color:lightgray"><code>{{ macro }}</code></span></div>
+{% endif %}
+{% endblock %}

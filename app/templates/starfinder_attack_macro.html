@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block extra_header %}
+<!--extra_header-->
+{% endblock %}
+
+{% block content %}
+<h1>Starfinder Attacks Macro</h1>
+<form action="" method="post" novalidate>
+    {{ form.hidden_tag() }}
+
+    <table style="table-layout: fixed; width: 100%;">
+        <tr><th style="width:20%;"></th><th style="width:60%;"></th><th style="width:20%;"></th></tr>
+        <tr>
+            <td>{{ form.weapon.label }}</td>
+            <td>{{ form.weapon(placeholder='lava whip') }}</td>
+            <td>
+                {% for error in form.weapon.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </td>
+        </tr>
+
+        <tr>
+            <td>{{ form.to_hit.label }}</td>
+            <td>{{ form.to_hit(placeholder='10') }}</td>
+            <td>
+                {% for error in form.to_hit.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </td>
+        </tr>
+
+
+
+        <tr>
+            <td>{{ form.ac_type.label }}</td>
+            <td>{{ form.ac_type }}</td>
+            <td>
+                {% for error in form.ac_type.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </td>
+        </tr>
+
+        <tr>
+            <td>{{ form.damage.label }}</td>
+            <td>{{ form.damage(placeholder='3d8+10') }}</td>
+            <td>
+                {% for error in form.damage.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </td>
+        </tr>
+
+        <tr>
+            <td>{{ form.damage_type.label }}</td>
+            <td>{{ form.damage_type(placeholder='fire & slashing') }}</td>
+            <td>
+                {% for error in form.damage_type.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </td>
+        </tr>
+
+
+
+        <tr>
+            <td>{{ form.full_attack_penalty.label }}</td>
+            <td>{{ form.full_attack_penalty }}</td>
+            <td>
+                {% for error in form.full_attack_penalty.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </td>
+        </tr>
+
+        <tr>
+            <td>{{ form.rider_effects.label }}</td>
+            <td>{{ form.rider_effects(placeholder='grab and poison') }}</td>
+        </tr>
+
+    </table>
+
+    <p>{{ form.build() }} {{ form.restart() }}</p>
+    <p>{{ form.ask_to_hit_modifier }} {{ form.ask_to_hit_modifier.label }}</p>
+    <p>{{ form.ask_damage_modifier }} {{ form.ask_damage_modifier.label }}</p>
+</form>
+
+{% if single or full %}
+<h2>The Macros</h2>
+<p>single</p>
+<div><span style="background-color:lightgray"><code>{{ single }}</code></span></div>
+<p>full</p>
+<div><span style="background-color:lightgray"><code>{{ full }}</code></span></div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% if title %}
+    <title>{{ title }} - AscaTools</title>
+    {% else %}
+    <title>microblog</title>
+    {% endif %}
+
+
+    {% block extra_header %}{% endblock %}
+</head>
+<body>
+<div>
+    AscaTools:
+    <a href="{{ url_for('index') }}">Home</a>
+    <a href="{{ url_for('starfinder_attack_macro') }}">Starfinder Attack Macro</a>
+    <a href="{{ url_for('generic_macro') }}">Generic Macro</a>
+    <a href="{{ url_for('saves_macro') }}">Saving Throws Macro</a>
+</div>
+<hr>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul>
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+{% block content %}{% endblock %}
+</body>
+</html>
