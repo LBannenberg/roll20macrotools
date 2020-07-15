@@ -44,3 +44,9 @@ class StarfinderAttackMacroForm(FlaskForm):
     ask_damage_modifier = BooleanField('Ask damage modifiers', default='')
     build = SubmitField('Build It!')
     restart = SubmitField('Start Over!')
+
+
+class InitiativeMacroForm(FlaskForm):
+    initiative = h5fields.IntegerField('Initiative', validators=[DataRequired()], render_kw={'autofocus': True})
+    build = SubmitField('Build It!')
+    restart = SubmitField('Start Over!')

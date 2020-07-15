@@ -1,6 +1,6 @@
 from flask import render_template, flash, redirect, url_for
 from app import app
-from app.forms import MainDefaultMacroForm, SavesMacroForm, StarfinderAttackMacroForm
+from app.forms import MainDefaultMacroForm, SavesMacroForm, StarfinderAttackMacroForm, InitiativeMacroForm
 
 
 @app.route('/')
@@ -79,3 +79,16 @@ def saves_macro():
         if form.restart.data:  # clear form
             return redirect(url_for('saves_macro'))
     return render_template('saves_macro.html', title='Saving Throws Macro', form=form, macro=macro)
+
+
+@app.route('/initiative_macro', methods=['GET', 'POST'])
+def initiative_macro():
+    form = InitiativeMacroForm()
+    macro = ''
+    if form.is_submitted():
+        if form.build.data and form.validate():  # valid data -> build macro
+            macro = ('/w gm &{template:default} {{name= @{selected|token_name} rolls initiative }} ' +
+                     '{{ initiative = [[1d20 + ' + str(form.initiative.data) + ' &{tracker} ]] }}')
+        if form.restart.data:  # clear form
+            return redirect(url_for('initiative_macro'))
+    return render_template('initiative_macro.html', title='Initiative Macro', form=form, macro=macro)

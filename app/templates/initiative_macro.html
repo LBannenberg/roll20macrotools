@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block extra_header %}
+<!--extra_header-->
+{% endblock %}
+
+{% block content %}
+<h1>Initiative Macro</h1>
+<form action="" method="post" novalidate>
+    {{ form.hidden_tag() }}
+
+    <p>
+        {{ form.initiative.label }}<br>
+        {{ form.initiative(size=3) }}
+    </p>
+    <p>{{ form.build() }} {{ form.restart() }}</p>
+</form>
+
+{% if macro %}
+<h2>The Macro</h2>
+<div><span style="background-color:lightgray"><code>{{ macro }}</code></span></div>
+{% endif %}
+{% endblock %}
