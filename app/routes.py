@@ -34,6 +34,7 @@ def starfinder_attack_macro():
     form = StarfinderAttackMacroForm()
     single = ''
     full = ''
+    trick = ''
     if form.is_submitted():
         if form.build.data and form.validate():
             preamble = '&{template:default} {{name=@{selected|token_name}'
@@ -50,16 +51,47 @@ def starfinder_attack_macro():
                 strike = strike.replace('+?{to hit modifier|0}', '')
             if not form.ask_damage_modifier.data:
                 strike = strike.replace('+?{damage modifier|0}', '')
+
+            # single strike
             single = preamble + ' attacks}} {{weapon=' + form.weapon.data + '}} '
             single = single + ' ' + strike.replace('MAP', '')
+
+            # optional trick attack
+            if form.trick_attack_check.data and form.trick_attack_damage.data:
+                trick = (
+                        preamble + ' trick attacks}} ' +
+                        '{{trick attack = CR [[1d20 + ' + str(form.trick_attack_check.data) + ' -20 ]] }}' +
+                        '{{weapon=' + form.weapon.data + '}} ' +
+                        strike.replace('MAP', '') +
+                        '{{trick damage = [[ ' + form.trick_attack_damage.data + ' ]] }}'
+                )
+
+            elif form.trick_attack_check.data:
+                trick = 'TRICK ATTACK DAMAGE MISSING'
+            elif form.trick_attack_damage.data:
+                trick = 'TRICK ATTACK CHECK MISSING'
+            else:
+                trick = ''
+
+            # full attack
+            full_strike = strike.replace('MAP', '+' + str(form.full_attack_penalty.data) + '[FA]')
             full = preamble + ' full attacks}} {{weapon=' + form.weapon.data + '}} '
-            full = full + ' ' + strike.replace('MAP', '+' + str(form.full_attack_penalty.data) + '[FA]').replace(
-                'strike', '1st strike')
-            full = full + ' ' + strike.replace('MAP', '+' + str(form.full_attack_penalty.data) + '[FA]').replace(
-                'strike', '2nd strike')
+            full = full + ' ' + full_strike.replace('strike', '1st strike')
+            full = full + ' ' + full_strike.replace('strike', '2nd strike')
+            if form.number_of_attacks.data >= 3:
+                full = full + ' ' + full_strike.replace('strike', '3rd strike')
+            if form.number_of_attacks.data == 4:
+                full = full + ' ' + full_strike.replace('strike', '4th strike')
         if form.restart.data:
             return redirect(url_for('starfinder_attack_macro'))
-    return render_template('starfinder_attack_macro.html', title='Starfinder Attack Macro', form=form, single=single, full=full)
+    return render_template(
+        'starfinder_attack_macro.html',
+        title='Starfinder Attack Macro',
+        form=form,
+        single=single,
+        full=full,
+        trick=trick
+    )
 
 
 @app.route('/saves_macro', methods=['GET', 'POST'])
@@ -87,8 +119,12 @@ def initiative_macro():
     macro = ''
     if form.is_submitted():
         if form.build.data and form.validate():  # valid data -> build macro
-            macro = ('/w gm &{template:default} {{name= @{selected|token_name} rolls initiative }} ' +
-                     '{{ initiative = [[1d20 + ' + str(form.initiative.data) + ' &{tracker} ]] }}')
+            macro = (
+                    '/w gm &{template:default} {{name= @{selected|token_name} rolls initiative }} ' +
+                    '{{ initiative = [[1d20 + ' +
+                    str(form.initiative.data + round(form.initiative.data/100, 2)) +
+                    ' &{tracker} ]] }}'
+            )
         if form.restart.data:  # clear form
             return redirect(url_for('initiative_macro'))
     return render_template('initiative_macro.html', title='Initiative Macro', form=form, macro=macro)
