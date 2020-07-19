@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, BooleanField, SubmitField, FieldList, Form, FormField, RadioField
-from wtforms.validators import DataRequired, NumberRange
+from wtforms.validators import DataRequired, NumberRange, Optional
 from wtforms.fields import html5 as h5fields
 from wtforms.widgets import html5 as h5widgets
 
@@ -49,7 +49,7 @@ class StarfinderAttackMacroForm(FlaskForm):
         validators=[DataRequired(), NumberRange(min=1, max=4)]
     )
     rider_effects = StringField('Rider Effects')
-    trick_attack_check = h5fields.IntegerField('Trick Attack Bonus')
+    trick_attack_check = h5fields.IntegerField('Trick Attack Bonus', validators=[Optional()])
     trick_attack_damage = StringField('Trick Attack Damage')
     ask_to_hit_modifier = BooleanField('Ask to hit modifiers', default='')
     ask_damage_modifier = BooleanField('Ask damage modifiers', default='')
