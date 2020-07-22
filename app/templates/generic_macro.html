@@ -7,19 +7,20 @@
             display: none;
         }
         .value-field {
-            width: 1000px;
+            width: 60%;
         }
     </style>
     {# Import JQuery #}
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-        <script type=text/javascript src="{{ url_for('static', filename='kv.js') }}"></script>
+    {# Import key-value script #}
+    <script type=text/javascript src="{{ url_for('static', filename='key_value.js') }}"></script>
 {% endblock %}
 
 {% block content %}
     <h1>Generic Macro Builder</h1>
 
-    <form id="pair-form" action="" method="POST" role="form">
+    <form id="pair-form" action="" method="POST">
         {{ form.hidden_tag() }}
         <p>
             {{ form.name.label }}<br>
@@ -30,18 +31,18 @@
         </p>
         
         <div id="subforms-container">
-                {% for subform in form.pairs %}
-                    <div id="pair-{{ loop.index0 }}-form" class="subform" data-index="{{ loop.index0 }}">
-                        {{ subform.key.label }} {{ loop.index0 }}
-                        {{ subform.key }}
+            {% for subform in form.pairs %}
+                <div id="pair-{{ loop.index0 }}-form" class="subform" data-index="{{ loop.index0 }}">
+                    {{ subform.key.label }} {{ loop.index0 }}
+                    {{ subform.key }}
 
-                        {{ subform.value.label }}
-                        {{ subform.value(class_="value-field")}}
+                    {{ subform.value.label }}
+                    {{ subform.value(class_="value-field")}}
 
-                        <a class="remove" href="#" tabindex="-1">Remove</a>
-                    </div>
-                {% endfor %}
-            </div>
+                    <a class="remove" href="#" tabindex="-1">Remove</a>
+                </div>
+            {% endfor %}
+        </div>
 
         <a id="add" href="#">Add Pair</a>
         <p>{{ form.build() }} {{ form.restart() }}</p>
