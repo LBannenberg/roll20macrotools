@@ -7,17 +7,24 @@
     <title>microblog</title>
     {% endif %}
 
+    <style>
+        ul.nav {text-align: center;}
+        ul.nav li {display: inline-block;margin:10px;}
+    </style>
 
     {% block extra_header %}{% endblock %}
 </head>
 <body>
 <div>
-    AscaTools:
-    <a href="{{ url_for('index') }}">Home</a>
-    <a href="{{ url_for('starfinder_attack_macro') }}">Starfinder Attack Macro</a>
-    <a href="{{ url_for('generic_macro') }}">Generic Macro</a>
-    <a href="{{ url_for('saves_macro') }}">Saving Throws Macro</a>
-    <a href="{{ url_for('initiative_macro') }}">Initiative Macro</a>
+    <span>AscaTools:</span>
+    <ul class="nav" style="display: inline;">
+        <li><a href="{{ url_for('index') }}">Home</a></li>
+        <li><a href="{{ url_for('starfinder_attack_macro') }}">Starfinder Attack</a></li>
+        <li><a href="{{ url_for('starship_macro') }}">NPC Starship</a></li>
+        <li><a href="{{ url_for('generic_macro') }}">Generic Macro</a></li>
+        <li><a href="{{ url_for('saves_macro') }}">Saving Throws</a></li>
+        <li><a href="{{ url_for('initiative_macro') }}">Initiative</a></li>
+    </ul>
 </div>
 <hr>
 {% with messages = get_flashed_messages() %}
