@@ -8,28 +8,28 @@
 <h1>Saves Macro</h1>
 <form action="" method="post" novalidate>
     {{ form.hidden_tag() }}
-    <table style="table-layout: fixed; width: 100%;">
+    <table style="table-layout: fixed; max-width: 100%;">
         <tr>
-            <td style="width:33%">{{ form.fortitude.label }}</td>
-            <td style="width:33%">{{ form.reflex.label }}</td>
-            <td style="width:33%">{{ form.will.label }}</td>
-        </tr>
-        <tr>
+            <td >{{ form.fortitude.label }}</td>
             <td>{{ form.fortitude(size=3) }}</td>
-            <td>{{ form.reflex(size=3) }}</td>
-            <td>{{ form.will(size=3) }}</td>
-        </tr>
-        <tr>
             <td>
                 {% for error in form.fortitude.errors %}
                 <span style="color: red;">[{{ error }}]</span>
                 {% endfor %}
             </td>
+        </tr>
+        <tr>
+            <td >{{ form.reflex.label }}</td>
+            <td>{{ form.reflex(size=3) }}</td>
             <td>
                 {% for error in form.reflex.errors %}
                 <span style="color: red;">[{{ error }}]</span>
                 {% endfor %}
             </td>
+        </tr>
+        <tr>
+            <td >{{ form.will.label }}</td>
+            <td>{{ form.will(size=3) }}</td>
             <td>
                 {% for error in form.will.errors %}
                 <span style="color: red;">[{{ error }}]</span>
@@ -39,7 +39,11 @@
     </table>
     <p>
         {{ form.notes.label }}<br>
-        {{ form.notes(style='width:80%;') }}
+        {{ form.notes(style='width:600px;') }}
+    </p>
+    <p>
+        {{ form.mask_rolls.label }} {{ form.mask_rolls }}
+        {% for error in form.mask_rolls.errors %}<span style="color: red;">[{{ error }}]</span>{% endfor %}
     </p>
     <p>{{ form.build() }} {{ form.restart() }}</p>
 </form>

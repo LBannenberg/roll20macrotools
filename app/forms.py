@@ -28,6 +28,8 @@ class SavesMacroForm(FlaskForm):
     reflex = h5fields.IntegerField('Reflex', validators=[DataRequired()])
     will = h5fields.IntegerField('Will', validators=[DataRequired()])
     notes = StringField('Notes')
+    mask_rolls = RadioField('Mask rolls?', default='mask',
+                            choices=[('no', 'no'), ('mask', '[[[[mask]]]]'), ('whisper', 'whisper to GM')])
     build = SubmitField('Build It!')
     restart = SubmitField('Start Over!')
 

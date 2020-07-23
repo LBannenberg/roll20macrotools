@@ -109,6 +109,10 @@ def saves_macro():
                      )
             if form.notes.data:
                 macro = macro + ' {{notes=' + form.notes.data + '}}'
+            if form.mask_rolls.data == 'mask':
+                macro = macro.replace('[[', '[[[[').replace(']]', ']]]]')
+            if form.mask_rolls.data == 'whisper':
+                macro = '/w GM ' + macro
         if form.restart.data:  # clear form
             return redirect(url_for('saves_macro'))
     return render_template('saves_macro.html', title='Saving Throws Macro', form=form, macro=macro)
