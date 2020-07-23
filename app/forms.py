@@ -81,7 +81,7 @@ class ShipWeaponField(Form):
     ], validators=[Optional()])
     damage = StringField('Damage')
     special = StringField('Special')
-    use_computers = BooleanField("Use computers by default?")
+    use_computers = BooleanField("Use computers?")
 
 
 class StarshipMacroForm(FlaskForm):
