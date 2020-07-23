@@ -24,6 +24,14 @@ function adjustIndices(removedIndex) {
             $item.attr('id', $item.attr('id').replace(index, newIndex));
             $item.attr('name', $item.attr('name').replace(index, newIndex));
         });
+
+        // Change IDs in form labels
+        $form.find('label').each(function(j) {
+            var $item = $(this);
+            $item.attr('id', $item.attr('id').replace(index, newIndex));
+            $item.attr('name', $item.attr('name').replace(index, newIndex));
+            $item.attr('for', $item.attr('for').replace(index, newIndex));
+        });
     });
 }
 
@@ -83,6 +91,11 @@ function addForm() {
 
         $item.text(newIndex);
         $item.attr('id', $item.attr('id').replace('_', newIndex));
+    });
+    $newForm.find('label').each(function(idx) {
+        var $item = $(this);
+
+        $item.attr('for', $item.attr('for').replace('_', newIndex));
     });
 
     // Append
