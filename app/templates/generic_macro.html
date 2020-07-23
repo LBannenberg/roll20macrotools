@@ -20,7 +20,7 @@
 {% block content %}
     <h1>Generic Macro Builder</h1>
 
-    <form id="pair-form" action="" method="POST">
+    <form id="pair-form" action="" method="POST" novalidate>
         {{ form.hidden_tag() }}
         <p>
             {{ form.name.label }}<br>
@@ -58,7 +58,7 @@
         <label for="pairs-_-key">Key</label> <span id="pairs-_-number">X</span>
         <input id="pairs-_-key" name="pairs-_-key" type="text" value="">
 
-        <label for="pairs-_-value">value</label>
+        <label for="pairs-_-value">Value</label>
         <input id="pairs-_-value" name="pairs-_-value" type="text" class="value-field" value="">
 
         <a class="remove" href="#" tabindex="-1">Remove</a>
