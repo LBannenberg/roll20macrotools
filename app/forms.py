@@ -61,3 +61,57 @@ class InitiativeMacroForm(FlaskForm):
     initiative = h5fields.IntegerField('Initiative', validators=[DataRequired()], render_kw={'autofocus': True})
     build = SubmitField('Build It!')
     restart = SubmitField('Start Over!')
+
+
+class ShipWeaponField(Form):
+    weapon_name = StringField('Name')
+    range = h5fields.IntegerField("Range", validators=[Optional()])
+    weapon_type = RadioField(
+        'Type',
+        choices=[('direct', 'direct'), ('tracking', 'tracking')],
+        validators=[Optional()]
+    )
+    tracking_speed = h5fields.IntegerField("Tracking Speed", validators=[Optional()])
+    facing = RadioField('Facing', choices=[
+        ('turret', 'turret'),
+        ('forward', 'forward'),
+        ('port', 'port'),
+        ('starboard', 'starboard'),
+        ('aft', 'aft')
+    ], validators=[Optional()])
+    damage = StringField('Damage')
+    special = StringField('Special')
+    use_computers = BooleanField("Use computers by default?")
+
+
+class StarshipMacroForm(FlaskForm):
+    # Ship
+    ship_tier = h5fields.IntegerField('Ship Tier', render_kw={'autofocus': True})
+    pcu = h5fields.IntegerField('PCU', validators=[Optional()])
+    sensors_bonus = h5fields.IntegerField('Sensor Bonus (to Computers)', validators=[Optional()])
+    ship_pilot_bonus = h5fields.IntegerField("Ship's Pilot Bonus", validators=[Optional()])
+    floating_bonus = h5fields.IntegerField("Floating Bonus (from ship's computer)", validators=[Optional()])
+    # Crew
+    captain_bluff = h5fields.IntegerField("Captain's Bluff", validators=[Optional()])
+    captain_diplomacy = h5fields.IntegerField("Captain's Diplomacy", validators=[Optional()])
+    captain_intimidation = h5fields.IntegerField("Captain's Intimidation", validators=[Optional()])
+    engineer = h5fields.IntegerField("Engineer", validators=[Optional()])
+    gunner = h5fields.IntegerField("Gunner", validators=[Optional()])
+    ask_range = BooleanField("Add range query to attack rolls")
+    apply_ship_bonuses = BooleanField("Apply ship bonuses to Pilot and Science Officer rolls")
+    pilot = h5fields.IntegerField("Pilot", validators=[Optional()])
+    science_officer = h5fields.IntegerField("Science Officer", validators=[Optional()])
+    # Guns
+    weapons = FieldList(
+        FormField(ShipWeaponField),
+        min_entries=3,
+        max_entries=20
+    )
+    # Form
+    build = SubmitField('Build It!')
+    restart = SubmitField('Start Over!')
+
+
+
+
+

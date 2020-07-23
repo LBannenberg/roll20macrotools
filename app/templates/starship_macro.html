@@ -1,0 +1,334 @@
+{% extends "base.html" %}
+
+{% block extra_header %}
+<!--extra_header-->
+<style>
+    span.error { color:red; }
+    .is-hidden { display: none; }
+    div.weapon, div.main-blocks {
+        border: 5px solid black;
+        margin:5px;
+    }
+    div.column {float:left;}
+    ul.horizontal-radio { list-style-type:none; padding:0px; }
+    ul.horizontal-radio li {
+        display: inline-flex;
+        border:1px solid lightgray;
+        border-radius:5px;
+    }
+    ul.horizontal-radio li label {
+        padding:5px;
+        margin: 5px;
+        margin-left: 0px;
+    }
+    /*ul.horizontal-radio li input { display:none; }*/
+    input[type="radio"]:checked+label{ color:blue; }
+    table.form-blocks, table.macro-blocks {
+        width:600px;
+        padding:5px;
+    }
+</style>
+{# Import JQuery #}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+{# Import key-value script #}
+<script type=text/javascript src="{{ url_for('static', filename='ship_weapons.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+<h1>(NPC) Starship Macro</h1>
+<form id="starship-form" action="" method="post" novalidate>
+    {{ form.hidden_tag() }}
+    <p>{{ form.build() }} {{ form.restart() }}</p>
+
+    <div class="column">
+
+        {% if macros %}
+        <div class="main-blocks">
+            <table class="macro-blocks">
+                <tr><th>Action</th><th>Macro</th></tr>
+                {% for key, value in macros.items() %}
+                <tr style="border-bottom: 1pt solid black;"><td>{{ key }}</td><td style="background-color:lightgray; padding:10pt;"><code>{{ value }}</code></td></tr>
+                {% endfor %}
+            </table>
+        </div>
+        {% endif %}
+
+
+
+
+
+
+        <div class="main-blocks">
+            <h2>Ship</h2>
+            <table class="form-blocks">
+                <tr>
+                    <td>{{ form.ship_tier.label }}</td>
+                    <td>{{ form.ship_tier(size=3) }}</td>
+                    <td>
+                        {% for error in form.ship_tier.errors %}
+                        <span class="error">[{{ error }}]</span>
+                        {% endfor %}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>{{ form.pcu.label }}</td>
+                    <td>{{ form.pcu(size=3) }}</td>
+                    <td>
+                        {% for error in form.pcu.errors %}
+                        <span class="error">[{{ error }}]</span>
+                        {% endfor %}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>{{ form.sensors_bonus.label }}</td>
+                    <td>{{ form.sensors_bonus(size=3) }}</td>
+                    <td>
+                        {% for error in form.sensors_bonus.errors %}
+                        <span class="error">[{{ error }}]</span>
+                        {% endfor %}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>{{ form.ship_pilot_bonus.label }}</td>
+                    <td>{{ form.ship_pilot_bonus(size=3) }}</td>
+                    <td>
+                        {% for error in form.ship_pilot_bonus.errors %}
+                        <span class="error">[{{ error }}]</span>
+                        {% endfor %}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>{{ form.floating_bonus.label }}</td>
+                    <td>{{ form.floating_bonus(size=3) }}</td>
+                    <td>
+                        {% for error in form.floating_bonus.errors %}
+                        <span class="error">[{{ error }}]</span>
+                        {% endfor %}
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+        <div class="main-blocks">
+            <h2>Crew</h2>
+            <table class="form-blocks">
+
+                <tr>
+                    <td>{{ form.captain_diplomacy.label }}</td>
+                    <td>{{ form.captain_diplomacy(size=3) }}</td>
+                    <td>
+                        {% for error in form.captain_diplomacy.errors %}
+                        <span class="error">[{{ error }}]</span>
+                        {% endfor %}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>{{ form.captain_intimidation.label }}</td>
+                    <td>{{ form.captain_intimidation(size=3) }}</td>
+                    <td>
+                        {% for error in form.captain_intimidation.errors %}
+                        <span class="error">[{{ error }}]</span>
+                        {% endfor %}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>{{ form.captain_bluff.label }}</td>
+                    <td>{{ form.captain_bluff(size=3) }}</td>
+                    <td>
+                        {% for error in form.captain_bluff.errors %}
+                        <span class="error">[{{ error }}]</span>
+                        {% endfor %}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>{{ form.engineer.label }}</td>
+                    <td>{{ form.engineer(size=3) }}</td>
+                    <td>
+                        {% for error in form.engineer.errors %}
+                        <span class="error">[{{ error }}]</span>
+                        {% endfor %}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>{{ form.gunner.label }}</td>
+                    <td>{{ form.gunner(size=3) }}</td>
+                    <td>
+                        {% for error in form.gunner.errors %}
+                        <span class="error">[{{ error }}]</span>
+                        {% endfor %}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>{{ form.pilot.label }}</td>
+                    <td>{{ form.pilot(size=3) }}</td>
+                    <td>
+                        {% for error in form.pilot.errors %}
+                        <span class="error">[{{ error }}]</span>
+                        {% endfor %}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>{{ form.science_officer.label }}</td>
+                    <td>{{ form.science_officer(size=3) }}</td>
+                    <td>
+                        {% for error in form.science_officer.errors %}
+                        <span class="error">[{{ error }}]</span>
+                        {% endfor %}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>{{ form.apply_ship_bonuses.label }}</td>
+                    <td>{{ form.apply_ship_bonuses(checked=checked) }}</td>
+                    <td>
+                        {% for error in form.apply_ship_bonuses.errors %}
+                        <span class="error">[{{ error }}]</span>
+                        {% endfor %}
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+
+    <div class="column">
+        <div class="main-blocks">
+            <table class="form-blocks">
+
+                <tr>
+                    <td>{{ form.ask_range.label }}</td>
+                    <td>{{ form.ask_range }}</td>
+                    <td>
+                        {% for error in form.ask_range.errors %}
+                        <span class="error">[{{ error }}]</span>
+                        {% endfor %}
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="subforms-container" style="width:100%;">
+            {% for subform in form.weapons %}
+            <div id="weapon-{{ loop.index0 }}-form" class="subform" data-index="{{ loop.index0 }}">
+                <div class="weapon">
+                    <h3>Weapon {{ loop.index0 }}</h3>
+                    <table class="form-blocks">
+                        <tr><td>{{ subform.facing.label }}</td><td>{{ subform.facing(class="horizontal-radio") }}</td></tr>
+                        <tr><td>{{ subform.weapon_name.label }}</td><td>{{ subform.weapon_name }}</td></tr>
+                        <tr><td>{{ subform.damage.label }}</td><td>{{ subform.damage }}</td></tr>
+                        <tr><td>{{ subform.range.label }}</td><td>{{ subform.range(size=3)}}</td></tr>
+                        <tr><td>{{ subform.weapon_type.label}}</td><td>{{ subform.weapon_type(class="horizontal-radio") }}</td></tr>
+                        <tr><td>{{ subform.tracking_speed.label }}</td><td>{{ subform.tracking_speed(size=3) }}</td></tr>
+                        <tr><td>{{ subform.use_computers.label }}</td><td>{{ subform.use_computers }}</td></tr>
+                        <tr><td>{{ subform.special.label }}</td><td>{{ subform.special }}</td></tr>
+                        <tr><td><a class="remove" href="#" tabindex="-1">Remove</a></td></tr>
+                    </table>
+                </div>
+            </div>
+            <div>
+                {% for error in subform.errors %}
+                <span class="error">[{{ error }}]</span>
+                {% endfor %}
+            </div>
+            {% endfor %}
+
+        </div>
+        <div style="width:100%; display:block;"><a id="add-weapon" href="#">Add Weapon</a></div>
+        <p>{{ form.build() }} {{ form.restart() }}</p>
+
+    </div>
+
+</form>
+
+{# Form template #}
+<div id="weapon-_-form" class="is-hidden" data-index="_">
+
+    <div class="weapon">
+        <h3>Weapon <span id="weapons-_-number">X</span></h3>
+
+        <table class="form-blocks">
+            <tr>
+                <td><label for="weapons-_-facing">Facing</label></td>
+                <td>
+                    <ul id="weapons-_-facing" class="horizontal-radio">
+                        <li>
+                            <input id="weapons-_-facing-0" name="weapons-_-facing" type="radio" value="turret">
+                            <label for="weapons-_-facing-0">turret</label>
+                        </li>
+                        <li>
+                            <input id="weapons-_-facing-1" name="weapons-_-facing" type="radio" value="forward">
+                            <label for="weapons-_-facing-1">forward</label>
+                        </li>
+                        <li>
+                            <input id="weapons-_-facing-2" name="weapons-_-facing" type="radio" value="port">
+                            <label for="weapons-_-facing-2">port</label>
+                        </li>
+                        <li>
+                            <input id="weapons-_-facing-3" name="weapons-_-facing" type="radio" value="starboard">
+                            <label for="weapons-_-facing-3">starboard</label>
+                        </li>
+                        <li>
+                            <input id="weapons-_-facing-4" name="weapons-_-facing" type="radio" value="aft">
+                            <label for="weapons-_-facing-4">aft</label>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="weapon-_-name">Weapon Name</label></td>
+                <td><input id="weapon-_-name" name="weapon-_-name" type="text" value=""></td>
+            </tr>
+            <tr>
+                <td><label for="weapon-_-damage">Damage</label></td>
+                <td><input id="weapon-_-damage" name="weapon-_-damage" type="text" value=""></td>
+            </tr>
+            <tr>
+                <td><label for="weapon-_-range">Range</label></td>
+                <td><input id="weapon-_-range" name="weapon-_-range" type="number" size=3 value=""></td>
+            </tr>
+            <tr>
+                <td><label for="weapons-_-weapon_type">Weapon type</label></td>
+                <td>
+                    <ul id="weapons-_-weapon_type" class="horizontal-radio">
+                        <li>
+                            <input id="weapons-_-weapon_type-0" name="weapons-_-weapon_type" type="radio" value="direct">
+                            <label for="weapons-_-weapon_type-0">direct</label>
+                        </li>
+                        <li>
+                            <input id="weapons-_-weapon_type-1" name="weapons-_-weapon_type" type="radio" value="tracking">
+                            <label for="weapons-_-weapon_type-1">tracking</label>
+                        </li>
+
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="weapon-_-tracking_speed">Tracking Speed</label></td>
+                <td><input id="weapon-_-tracking_speed" name="weapon-_-tracking_speed" type="number" size=3 value=""></td>
+            </tr>
+            <tr>
+                <td><label for="weapon-_-use_computers">Use computers by default?</label></td>
+                <td><input id="weapon-_-use_computers" name="weapon-_-use_computers" type="checkbox" value=""></td>
+            </tr>
+            <tr>
+                <td><label for="weapon-_-special">Special</label></td>
+                <td><input id="weapon-_-special" name="weapon-_-special" type="text" value=""></td>
+            </tr>
+        </table>
+        <a class="remove" href="#" tabindex="-1">Remove</a>
+    </div>
+</div>
+
+
+
+{% endblock %}
