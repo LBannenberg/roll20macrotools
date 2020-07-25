@@ -253,7 +253,7 @@ def starship_macro():
                     else:
                         to_hit = to_hit.replace('SURFACE', 'TL')
                     if form.ask_range.data:
-                        to_hit = to_hit.replace('RANGE', ' - [[ ( ceil( ?{distance to target|0} / ' +
+                        to_hit = to_hit.replace('RANGE', ' - [[ ( ceil( ?{distance to target|1} / ' +
                                                 str(weapon['range']) + ' ) -1 ) * 2 ]][range]')
                     else:
                         to_hit = to_hit.replace('RANGE', '')
