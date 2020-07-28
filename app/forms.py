@@ -106,8 +106,8 @@ class StarshipMacroForm(FlaskForm):
     # Guns
     weapons = FieldList(
         FormField(ShipWeaponField),
-        min_entries=3,
-        max_entries=20
+        min_entries=6,
+        max_entries=6
     )
     # Form
     build = SubmitField('Build It!')
